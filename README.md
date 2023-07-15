@@ -1,4 +1,5 @@
 # Bot to create news to your channel
+# Status: INACTIVE [IN DEVELOPMENT]
 
 # How to use?
   1. Create chat
