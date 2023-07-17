@@ -14,19 +14,18 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Component
+@SuppressWarnings("ALL")
 public class GetUserPostTextState implements UserState {
     private final ChannelService channelService;
 
@@ -45,7 +44,7 @@ public class GetUserPostTextState implements UserState {
 
     @Override
     @SneakyThrows
-    public void state(@NonNull User user, @NonNull Message message) {
+    public void state(@NonNull User user, @NonNull Message message, @NonNull Object[] callbackData) {
         val postText = new MessageBuilder();
         val userId = String.valueOf(user.getId());
         val channelEntity = channelService.getChannel(userId);

@@ -65,9 +65,10 @@ public class TelegramBot extends TelegramLongPollingBot {
         val message = update.getMessage();
         val user = message.getFrom();
         val userState = FieldStateMachine.getState(update.getMessage().getFrom());
+        val callbackData = FieldStateMachine.getCallback(userState);
 
         if (userState != null) {
-            userState.state(user, message);
+            userState.state(user, message, callbackData);
             return;
         }
 

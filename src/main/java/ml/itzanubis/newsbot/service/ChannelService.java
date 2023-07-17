@@ -62,6 +62,10 @@ public class ChannelService {
         channels.values().remove(channel);
     }
 
+    public Channel getChannelById(String channelId) {
+        return repository.findById(Long.valueOf(channelId)).orElse(null);
+    }
+
     public Channel getChannel(final @NotNull String userId) {
         val channel = channels.get(userId);
 
@@ -74,7 +78,7 @@ public class ChannelService {
     }
 
     @SneakyThrows
-    public boolean isBotAdmin(final @NotNull String chatId) {
+    public boolean isAdmin(final @NotNull String chatId) {
         val admins = bot.execute(new GetChatAdministrators(chatId));
 
         val isBotAdmin = admins.stream().filter(

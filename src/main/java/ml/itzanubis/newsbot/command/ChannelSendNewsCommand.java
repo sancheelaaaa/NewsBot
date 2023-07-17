@@ -53,7 +53,7 @@ public class ChannelSendNewsCommand implements CommandExecutor {
 
         val channelId = String.valueOf(channelEntity.getId());
 
-        if (!channelService.isBotAdmin(channelId)) {
+        if (!channelService.isAdmin(channelId)) {
             bot.execute(new SendMessage(userId, "Бот в канале не администратор!"));
             return;
         }

@@ -13,13 +13,10 @@ import ml.itzanubis.newsbot.telegram.command.CommandManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-
-import java.util.Objects;
 
 @Component
 public class ChannelBindCommand implements CommandExecutor {
@@ -68,7 +65,7 @@ public class ChannelBindCommand implements CommandExecutor {
 
         val channel = bot.execute(new GetChat(chatId));
 
-        if (!channelService.isBotAdmin(chatId)) {
+        if (!channelService.isAdmin(chatId)) {
             bot.execute(new SendMessage(userId, "Бот в чате не администратор!"));
             return;
         }

@@ -13,8 +13,22 @@ public class FieldStateMachine {
     @Getter
     private final Map<User, UserState> FIELD_STATE_MACHINE = new HashMap<>();
 
+    private final Map<UserState, Object[]> callbacks = new HashMap<>();
+
     @Getter
     private final Map<String, UserState> STATES = new HashMap<>();
+
+    public void addCallback(UserState state, Object[] callback) {
+        callbacks.put(state, callback);
+    }
+
+    public Object[] getCallback(UserState state) {
+        return callbacks.get(state);
+    }
+
+    public void clearCallback(UserState state) {
+        callbacks.remove(state);
+    }
 
     public void addState(final @NonNull String name, final @NonNull UserState state) {
         STATES.put(name, state);
