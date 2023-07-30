@@ -28,5 +28,6 @@
 4. [+] channel list command
 5. [+] callback buttons for offer a news
 6. [+] create a offer command
+7. [+] made a limit to avoid suggested news in less than 100 characters
 
-# In order: a more language's 
+# In order: a more language's support
