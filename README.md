@@ -8,6 +8,11 @@
   4. To unbind channel use command /unbind 
   5. To send post to your channel, use command and look for instructions: /post
   6. A post sended to your channel
+     
+# How to offer a message, if I can? -- So easy, follow next steps:
+  1. Send a message to bot: https://t.me/boubletelegramnews_bot
+  2. Write a command: /inform [chat_id] (where chat_id - id of chat, where should you send your offer)
+  3. Look for next instructions.
 
 # <b> FAQ: </b>
 
@@ -22,5 +27,6 @@
   3. [+] post text command (with or without photo)
 4. [+] channel list command
 5. [+] callback buttons for offer a news
+6. [+] create a offer command
 
 # In order: a more language's 
