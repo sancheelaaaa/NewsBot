@@ -29,7 +29,11 @@ public class ChannelBindCommand implements CommandExecutor {
     private final TelegramBotConfiguration configuration;
 
     @Autowired
-    private ChannelBindCommand(ChannelService channelService, TelegramBot bot, CommandManager commandManager, TelegramBotConfiguration configuration) {
+    private ChannelBindCommand(final @NotNull ChannelService channelService,
+                               final @NotNull TelegramBot bot,
+                               final @NotNull CommandManager commandManager,
+                               final @NotNull TelegramBotConfiguration configuration) {
+
         this.channelService = channelService;
         this.bot = bot;
         this.commandManager = commandManager;

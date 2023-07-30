@@ -35,7 +35,8 @@ public class ChannelInformCommand implements CommandExecutor {
     @Autowired
     public ChannelInformCommand(ChannelService channelService,
                                 TelegramBot telegramBot,
-                                GetUserInformMessageState getUserInformMessageState, CommandManager commandManager) {
+                                GetUserInformMessageState getUserInformMessageState,
+                                CommandManager commandManager) {
 
         this.channelService = channelService;
         this.telegramBot = telegramBot;
