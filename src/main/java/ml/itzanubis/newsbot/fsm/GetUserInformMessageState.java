@@ -8,9 +8,12 @@ import ml.itzanubis.newsbot.entity.Channel;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.machine.FieldStateMachine;
 import ml.itzanubis.newsbot.telegram.machine.UserState;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -21,6 +24,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Component
 public class GetUserInformMessageState implements UserState {
@@ -42,6 +47,7 @@ public class GetUserInformMessageState implements UserState {
         val declineButton = new InlineKeyboardButton();
         val buttonsRow = new ArrayList<List<InlineKeyboardButton>>();
         val channel = (Channel) callbackData[0];
+        val hasPhoto = message.hasPhoto();
 
         applyButton.setCallbackData("accept-news");
         declineButton.setCallbackData("decline-news");
@@ -53,8 +59,19 @@ public class GetUserInformMessageState implements UserState {
 
         replyKeyboardMarkup.setKeyboard(buttonsRow);
 
+        val inform = hasPhoto ? message.getCaption() : message.getText();
+
+        if (inform.length() < 100) {
+            bot.execute(new SendMessage(String.valueOf(user.getId()), "Текст не может быть меньше 100 символов!"
+                                                                            + " Попробуйте еще раз."));
+
+            FieldStateMachine.clearCallback(this);
+            FieldStateMachine.cancelState(user);
+
+            return;
+        }
+
         if (message.hasPhoto()) {
-            val inform = message.getCaption();
             val informedMessage = new SendPhoto();
             val photo = bot.downloadFile(bot.execute(new GetFile(message.getPhoto().get(2).getFileId())));
 
@@ -69,7 +86,6 @@ public class GetUserInformMessageState implements UserState {
             return;
         }
 
-        val inform = message.getText();
         val informedMessage = new SendMessage();
 
         informedMessage.setText("Вам пришла новость: " + inform);
@@ -81,4 +97,5 @@ public class GetUserInformMessageState implements UserState {
         FieldStateMachine.clearCallback(this);
         FieldStateMachine.cancelState(user);
     }
+
 }

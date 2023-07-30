@@ -56,9 +56,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(final @NotNull Update update) {
         if (update.hasCallbackQuery()) {
             val callbackQuery = update.getCallbackQuery();
-
             callbackManager.call(callbackManager.get(callbackQuery.getData()), callbackQuery.getFrom(), callbackQuery);
-
             return;
         }
 
