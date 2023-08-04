@@ -33,7 +33,11 @@ public class ChannelSendNewsCommand implements CommandExecutor {
     }
 
     @Autowired
-    public ChannelSendNewsCommand(ChannelService channelService, CommandManager commandManager, TelegramBot bot, GetUserPostTextState getUserPostTextState) {
+    public ChannelSendNewsCommand(ChannelService channelService,
+                                  CommandManager commandManager,
+                                  TelegramBot bot,
+                                  GetUserPostTextState getUserPostTextState) {
+
         this.channelService = channelService;
         this.commandManager = commandManager;
         this.bot = bot;
