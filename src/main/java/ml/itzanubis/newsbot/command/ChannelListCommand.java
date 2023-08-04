@@ -52,7 +52,8 @@ public class ChannelListCommand implements CommandExecutor {
         messageBuilder.add("Список Ваших каналов: ");
 
         for (int i = 0; i < channels.size(); i++) {
-            messageBuilder.add(i + ": " + channels.stream().toList().get(i).getName());
+            messageBuilder.add("\n");
+            messageBuilder.add((i+1) + ". " + channels.stream().toList().get(i).getName());
         }
 
         bot.execute(new SendMessage(userId, messageBuilder.build()));
