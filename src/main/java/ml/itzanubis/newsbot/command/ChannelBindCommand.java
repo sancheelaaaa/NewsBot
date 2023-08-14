@@ -1,7 +1,6 @@
 package ml.itzanubis.newsbot.command;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.validation.constraints.NotNull;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
@@ -10,6 +9,7 @@ import ml.itzanubis.newsbot.entity.Channel;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
 import ml.itzanubis.newsbot.telegram.command.CommandManager;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
@@ -47,7 +47,11 @@ public class ChannelBindCommand implements CommandExecutor {
 
     @Override
     @SneakyThrows
-    public void execute(@NotNull Message message, @NotNull User user, @NotNull Chat chat, @NotNull String[] args) {
+    public void execute(final @NotNull Message message,
+                        final @NotNull User user,
+                        final @NotNull Chat chat,
+                        final @NotNull String[] args) {
+
         val userId = String.valueOf(user.getId());
 
         if (args.length != 1) {

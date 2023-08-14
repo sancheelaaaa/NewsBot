@@ -33,10 +33,10 @@ public class ChannelInformCommand implements CommandExecutor {
     }
 
     @Autowired
-    public ChannelInformCommand(ChannelService channelService,
-                                TelegramBot telegramBot,
-                                GetUserInformMessageState getUserInformMessageState,
-                                CommandManager commandManager) {
+    public ChannelInformCommand(final @NotNull ChannelService channelService,
+                                final @NotNull TelegramBot telegramBot,
+                                final @NotNull GetUserInformMessageState getUserInformMessageState,
+                                final @NotNull CommandManager commandManager) {
 
         this.channelService = channelService;
         this.telegramBot = telegramBot;
@@ -46,7 +46,11 @@ public class ChannelInformCommand implements CommandExecutor {
 
     @Override
     @SneakyThrows
-    public void execute(@NotNull Message message, @NotNull User user, @NotNull Chat chat, @NotNull String[] args) {
+    public void execute(final @NotNull Message message,
+                        final @NotNull User user,
+                        final @NotNull Chat chat,
+                        final @NotNull String[] args) {
+        
         val executorId = String.valueOf(user.getId());
 
         if (args.length < 1) {

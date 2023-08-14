@@ -1,5 +1,6 @@
 package ml.itzanubis.newsbot.telegram.machine;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -18,24 +19,20 @@ public class FieldStateMachine {
     @Getter
     private final Map<String, UserState> STATES = new HashMap<>();
 
-    public void addCallback(UserState state, Object[] callback) {
+    public void addCallback(final @NotNull UserState state, final @NotNull Object[] callback) {
         callbacks.put(state, callback);
     }
 
-    public Object[] getCallback(UserState state) {
+    public Object[] getCallback(final @NotNull UserState state) {
         return callbacks.get(state);
     }
 
-    public void clearCallback(UserState state) {
+    public void clearCallback(final @NotNull UserState state) {
         callbacks.remove(state);
     }
 
     public void addState(final @NonNull String name, final @NonNull UserState state) {
         STATES.put(name, state);
-    }
-
-    public UserState getState(final @NonNull String name) {
-        return STATES.get(name);
     }
 
     public void createState(final @NonNull User user, final @NonNull UserState userState) {
@@ -44,7 +41,6 @@ public class FieldStateMachine {
 
     public void cancelState(final @NonNull User user) {
         if (FIELD_STATE_MACHINE.get(user) == null) {
-            System.out.println("No StateMachine for User: " + user.getId());
             return;
         }
 

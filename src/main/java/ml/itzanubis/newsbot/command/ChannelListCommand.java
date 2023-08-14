@@ -26,7 +26,10 @@ public class ChannelListCommand implements CommandExecutor {
     private final CommandManager commandManager;
 
     @Autowired
-    private ChannelListCommand(ChannelService channelService, TelegramBot bot, CommandManager commandManager) {
+    private ChannelListCommand(final @NotNull ChannelService channelService,
+                               final @NotNull TelegramBot bot,
+                               final @NotNull CommandManager commandManager) {
+
         this.channelService = channelService;
         this.bot = bot;
         this.commandManager = commandManager;
