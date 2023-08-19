@@ -1,4 +1,4 @@
-package ml.itzanubis.newsbot.fsm;
+package ml.itzanubis.newsbot.state;
 
 import lombok.NonNull;
 import lombok.SneakyThrows;

@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
 import ml.itzanubis.newsbot.entity.UserEntity;
-import ml.itzanubis.newsbot.fsm.GetUserInformMessageState;
+import ml.itzanubis.newsbot.state.GetUserInformMessageState;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
 import ml.itzanubis.newsbot.telegram.command.CommandManager;

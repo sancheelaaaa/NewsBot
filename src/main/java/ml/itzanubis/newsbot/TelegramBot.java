@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.config.TelegramBotConfiguration;
-import ml.itzanubis.newsbot.fsm.GetUserLanguageState;
+import ml.itzanubis.newsbot.state.GetUserLanguageState;
 import ml.itzanubis.newsbot.lang.LangConfiguration;
 import ml.itzanubis.newsbot.repository.UserRepository;
 import ml.itzanubis.newsbot.telegram.command.CommandManager;
