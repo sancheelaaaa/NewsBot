@@ -44,22 +44,18 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final LangConfiguration langConfiguration;
 
-    private final GetUserLanguageState languageState;
-
     @Autowired
     private TelegramBot(final @NotNull TelegramBotConfiguration configuration,
                         final @NotNull CommandManager commandManager,
                         final @NotNull UpdateCallbackManager callbackManager,
                         final @NotNull UserRepository userRepository,
-                        final @NotNull LangConfiguration langConfiguration,
-                        final @NotNull GetUserLanguageState languageState) {
+                        final @NotNull LangConfiguration langConfiguration) {
 
         this.configuration = configuration;
         this.commandManager = commandManager;
         this.callbackManager = callbackManager;
         this.userRepository = userRepository;
         this.langConfiguration = langConfiguration;
-        this.languageState = languageState;
     }
 
     @SneakyThrows
@@ -108,7 +104,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             replyKeyboardMarkup.setKeyboard(Collections.singletonList(keyboardRow));
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
 
-            FieldStateMachine.createState(user, languageState);
+            FieldStateMachine.createState(user, new GetUserLanguageState(langConfiguration, userRepository, this));
             execute(sendMessage);
 
             return;
@@ -119,7 +115,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         val userEntity = userRepository.getUserById(userId).orElse(null);
 
         if (!commandManager.isExist(key)) {
-            logger.error("Command not found: " + key);
             return;
         }
 
