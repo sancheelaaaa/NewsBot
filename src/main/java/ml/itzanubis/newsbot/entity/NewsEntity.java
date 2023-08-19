@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @SuppressWarnings("ALL")
 @NoArgsConstructor
-public class News {
+public class NewsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,7 +24,7 @@ public class News {
 
     private Date date;
 
-    public News(String article, String content, Date date) {
+    public NewsEntity(String article, String content, Date date) {
         this.article = article;
         this.content = content;
         this.date = date;

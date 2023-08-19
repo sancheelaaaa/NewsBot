@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
+import ml.itzanubis.newsbot.entity.UserEntity;
 import ml.itzanubis.newsbot.fsm.GetUserInformMessageState;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
@@ -49,7 +50,8 @@ public class ChannelInformCommand implements CommandExecutor {
     public void execute(final @NotNull Message message,
                         final @NotNull User user,
                         final @NotNull Chat chat,
-                        final @NotNull String[] args) {
+                        final @NotNull String[] args,
+                        final @NotNull UserEntity userEntity) {
         
         val executorId = String.valueOf(user.getId());
 

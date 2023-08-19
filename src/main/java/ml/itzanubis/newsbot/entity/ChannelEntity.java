@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Channel {
+public class ChannelEntity {
     @Id
     private Long id;
 

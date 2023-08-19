@@ -5,7 +5,8 @@ import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
 import ml.itzanubis.newsbot.config.TelegramBotConfiguration;
-import ml.itzanubis.newsbot.entity.Channel;
+import ml.itzanubis.newsbot.entity.ChannelEntity;
+import ml.itzanubis.newsbot.entity.UserEntity;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
 import ml.itzanubis.newsbot.telegram.command.CommandManager;
@@ -50,7 +51,8 @@ public class ChannelBindCommand implements CommandExecutor {
     public void execute(final @NotNull Message message,
                         final @NotNull User user,
                         final @NotNull Chat chat,
-                        final @NotNull String[] args) {
+                        final @NotNull String[] args,
+                        final @NotNull UserEntity userEntity) {
 
         val userId = String.valueOf(user.getId());
 
@@ -83,7 +85,7 @@ public class ChannelBindCommand implements CommandExecutor {
             return;
         }
 
-        val channelEntity = new Channel(channel.getId(), channel.getTitle(), userId);
+        val channelEntity = new ChannelEntity(channel.getId(), channel.getTitle(), userId);
 
         channelService.createChannel(userId, channelEntity);
 

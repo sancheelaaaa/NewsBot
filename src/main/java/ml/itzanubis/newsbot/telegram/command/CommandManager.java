@@ -1,6 +1,7 @@
 package ml.itzanubis.newsbot.telegram.command;
 
 import ml.itzanubis.newsbot.TelegramBot;
+import ml.itzanubis.newsbot.entity.UserEntity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -9,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 public final class CommandManager {
@@ -24,9 +26,10 @@ public final class CommandManager {
                         final @NotNull Message message,
                         final @NotNull User user,
                         final @NotNull Chat chat,
-                        final @NotNull String[] args) {
+                        final @NotNull String[] args,
+                        final @NotNull UserEntity userEntity) {
 
-        commands.get(key).execute(message, user, chat, args);
+        CompletableFuture.runAsync(() -> commands.get(key).execute(message, user, chat, args, userEntity));
     }
 
     public boolean isExist(final @NotNull String key) {

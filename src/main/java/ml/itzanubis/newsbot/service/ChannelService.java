@@ -6,7 +6,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
 import ml.itzanubis.newsbot.config.TelegramBotConfiguration;
-import ml.itzanubis.newsbot.entity.Channel;
+import ml.itzanubis.newsbot.entity.ChannelEntity;
 import ml.itzanubis.newsbot.repository.ChannelRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Service
 public class ChannelService {
-    private static final Map<String, Channel> channels = new HashMap<>();
+    private static final Map<String, ChannelEntity> channels = new HashMap<>();
 
     private final ChannelRepository repository;
 
@@ -42,11 +42,11 @@ public class ChannelService {
         repository.findAll().forEach(channel -> channels.put(channel.getUserId(), channel));
     }
 
-    public Collection<Channel> collectAll() {
+    public Collection<ChannelEntity> collectAll() {
         return channels.values();
     }
 
-    public void createChannel(final @NotNull String userId, final @NotNull Channel channel) {
+    public void createChannel(final @NotNull String userId, final @NotNull ChannelEntity channel) {
         logger.info("Creating a new channel for a user: " + userId);
 
         repository.save(channel);
@@ -54,7 +54,7 @@ public class ChannelService {
         channels.put(userId, channel);
     }
 
-    public void deleteChannel(final @NotNull Channel channel) {
+    public void deleteChannel(final @NotNull ChannelEntity channel) {
         logger.info("Deleting a channel: " + channel.getName());
 
         repository.delete(channel);
@@ -62,11 +62,11 @@ public class ChannelService {
         channels.values().remove(channel);
     }
 
-    public Channel getChannelById(String channelId) {
+    public ChannelEntity getChannelById(String channelId) {
         return repository.findById(Long.valueOf(channelId)).orElse(null);
     }
 
-    public Channel getChannel(final @NotNull String userId) {
+    public ChannelEntity getChannel(final @NotNull String userId) {
         val channel = channels.get(userId);
 
         if (channel == null) {

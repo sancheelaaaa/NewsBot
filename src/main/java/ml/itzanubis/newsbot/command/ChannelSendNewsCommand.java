@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
+import ml.itzanubis.newsbot.entity.UserEntity;
 import ml.itzanubis.newsbot.fsm.GetUserPostTextState;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
@@ -46,7 +47,12 @@ public class ChannelSendNewsCommand implements CommandExecutor {
 
     @Override
     @SneakyThrows
-    public void execute(@NotNull Message message, @NotNull User user, @NotNull Chat chat, @NotNull String[] args) {
+    public void execute(final @NotNull Message message,
+                        final @NotNull User user,
+                        final @NotNull Chat chat,
+                        final @NotNull String[] args,
+                        final @NotNull UserEntity userEntity) {
+
         val userId = String.valueOf(user.getId());
         val channelEntity = channelService.getChannel(userId);
 

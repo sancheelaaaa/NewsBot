@@ -4,16 +4,13 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
-import ml.itzanubis.newsbot.entity.Channel;
+import ml.itzanubis.newsbot.entity.ChannelEntity;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.machine.FieldStateMachine;
 import ml.itzanubis.newsbot.telegram.machine.UserState;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
-import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -24,8 +21,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Component
 public class GetUserInformMessageState implements UserState {
@@ -46,7 +41,7 @@ public class GetUserInformMessageState implements UserState {
         val applyButton = new InlineKeyboardButton();
         val declineButton = new InlineKeyboardButton();
         val buttonsRow = new ArrayList<List<InlineKeyboardButton>>();
-        val channel = (Channel) callbackData[0];
+        val channel = (ChannelEntity) callbackData[0];
         val hasPhoto = message.hasPhoto();
 
         applyButton.setCallbackData("accept-news");

@@ -8,7 +8,7 @@ group = 'ml.itzanubis'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '20'
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -26,6 +26,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'org.projectlombok:lombok:1.18.26'
+    implementation 'com.github.jsixface:yamlconfig:1.1'
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     implementation 'org.telegram:telegrambots:6.7.0'
