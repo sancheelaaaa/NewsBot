@@ -29,5 +29,4 @@
 5. [+] callback buttons for offer a news
 6. [+] create a offer command
 7. [+] made a limit to avoid suggested news in less than 100 characters
-
-# In order: a more language's support
+8. [+] preparing for multi-language in 0.2-version
