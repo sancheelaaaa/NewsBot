@@ -10,9 +10,7 @@ public final class MessageBuilder {
     }
 
     public StringBuilder add(final @NotNull String row) {
-        builder.append(row);
-
-        return this.builder;
+        return this.builder.append(row);
     }
 
     public String build() {
