@@ -10,8 +10,10 @@ import java.util.Optional;
 @Repository
 @SuppressWarnings("ALL")
 public interface ChannelRepository extends JpaRepository<ChannelEntity, Long> {
+
     @Override
     Optional<ChannelEntity> findById(final @NotNull Long id);
 
     Optional<ChannelEntity> findByName(final @NotNull String name);
+
 }

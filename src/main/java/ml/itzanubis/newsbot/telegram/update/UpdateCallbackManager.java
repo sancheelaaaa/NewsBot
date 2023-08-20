@@ -12,6 +12,7 @@ import java.util.Objects;
 
 @Component
 public final class UpdateCallbackManager {
+
     private static final Map<String, UpdateCallbackQueryExecutor> callbacks = new HashMap<>();
 
     private static final Map<UpdateCallbackQueryExecutor, Object[]> callbacksObjects = new HashMap<>();
@@ -40,4 +41,5 @@ public final class UpdateCallbackManager {
 
         queryExecutor.execute(user, callback);
     }
+
 }

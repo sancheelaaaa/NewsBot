@@ -14,6 +14,7 @@ import java.util.Date;
 @SuppressWarnings("ALL")
 @NoArgsConstructor
 public class NewsEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,4 +30,5 @@ public class NewsEntity {
         this.content = content;
         this.date = date;
     }
+
 }

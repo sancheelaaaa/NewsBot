@@ -20,6 +20,7 @@ import java.util.Objects;
 
 @Service
 public class ChannelService {
+
     private static final Map<String, ChannelEntity> channels = new HashMap<>();
 
     private final ChannelRepository repository;

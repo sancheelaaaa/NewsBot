@@ -3,6 +3,7 @@ package ml.itzanubis.newsbot.telegram.message;
 import org.jetbrains.annotations.NotNull;
 
 public final class MessageBuilder {
+
     private final StringBuilder builder;
 
     public MessageBuilder() {
@@ -16,4 +17,5 @@ public final class MessageBuilder {
     public String build() {
         return builder.toString();
     }
+
 }

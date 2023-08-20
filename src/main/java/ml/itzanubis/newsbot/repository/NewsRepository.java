@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface NewsRepository extends CrudRepository<NewsEntity, Long> {
     Optional<NewsEntity> findByArticle(final @NotNull String article);
+
 }
