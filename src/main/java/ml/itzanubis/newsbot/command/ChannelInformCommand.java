@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
 import ml.itzanubis.newsbot.entity.UserEntity;
+import ml.itzanubis.newsbot.lang.LangConfiguration;
 import ml.itzanubis.newsbot.state.GetUserInformMessageState;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
@@ -28,6 +29,8 @@ public class ChannelInformCommand implements CommandExecutor {
 
     private final CommandManager commandManager;
 
+    private final LangConfiguration langConfiguration;
+
     @PostConstruct
     private void init() {
         commandManager.createCommand("/inform", this);
@@ -37,12 +40,14 @@ public class ChannelInformCommand implements CommandExecutor {
     public ChannelInformCommand(final @NotNull ChannelService channelService,
                                 final @NotNull TelegramBot telegramBot,
                                 final @NotNull GetUserInformMessageState getUserInformMessageState,
-                                final @NotNull CommandManager commandManager) {
+                                final @NotNull CommandManager commandManager,
+                                final @NotNull LangConfiguration langConfiguration) {
 
         this.channelService = channelService;
         this.telegramBot = telegramBot;
         this.getUserInformMessageState = getUserInformMessageState;
         this.commandManager = commandManager;
+        this.langConfiguration = langConfiguration;
     }
 
     @Override
@@ -54,27 +59,28 @@ public class ChannelInformCommand implements CommandExecutor {
                         final @NotNull UserEntity userEntity) {
         
         val executorId = String.valueOf(user.getId());
+        val language = langConfiguration.getLanguage(userEntity.getLang());
 
         if (args.length < 1) {
-            telegramBot.execute(new SendMessage(executorId, "Введите айди канала!"));
+            telegramBot.execute(new SendMessage(executorId, language.getString("need_chat_id")));
             return;
         }
 
         val channelId = args[0];
 
         if (!isNumeric(channelId)) {
-            telegramBot.execute(new SendMessage(executorId, "Некорректное айди канала!"));
+            telegramBot.execute(new SendMessage(executorId, language.getString("incorrect_chat_id")));
             return;
         }
 
         val channel = channelService.getChannelById(channelId);
 
         if (channel == null) {
-            telegramBot.execute(new SendMessage(executorId, "Чат не найден!"));
+            telegramBot.execute(new SendMessage(executorId, language.getString("chat_not_found")));
             return;
         }
 
-        telegramBot.execute(new SendMessage(executorId, "Пришлите новость в след. сообщении!"));
+        telegramBot.execute(new SendMessage(executorId, language.getString("send_a_news")));
 
         FieldStateMachine.addCallback(getUserInformMessageState, new Object[]{channel});
         FieldStateMachine.createState(user, getUserInformMessageState);

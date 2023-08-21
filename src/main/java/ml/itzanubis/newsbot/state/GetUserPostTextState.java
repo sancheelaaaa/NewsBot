@@ -5,7 +5,9 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
+import ml.itzanubis.newsbot.lang.LangConfiguration;
 import ml.itzanubis.newsbot.service.ChannelService;
+import ml.itzanubis.newsbot.service.UserService;
 import ml.itzanubis.newsbot.telegram.machine.FieldStateMachine;
 import ml.itzanubis.newsbot.telegram.machine.UserState;
 import ml.itzanubis.newsbot.telegram.message.MessageBuilder;
@@ -31,15 +33,21 @@ public class GetUserPostTextState implements UserState {
 
     private final TelegramBot bot;
 
+    private final LangConfiguration langConfiguration;
+
+    private final UserService userService;
+
     @PostConstruct
     private void createState() {
         FieldStateMachine.addState("getUserPostTextState", this);
     }
 
     @Autowired
-    public GetUserPostTextState(ChannelService channelService, TelegramBot bot) {
+    public GetUserPostTextState(ChannelService channelService, TelegramBot bot, LangConfiguration langConfiguration, UserService userService) {
         this.channelService = channelService;
         this.bot = bot;
+        this.langConfiguration = langConfiguration;
+        this.userService = userService;
     }
 
     @Override
@@ -52,12 +60,13 @@ public class GetUserPostTextState implements UserState {
         val replyKeyboardMarkup = new InlineKeyboardMarkup();
         val checkButton = new InlineKeyboardButton();
         val buttonsRow = new ArrayList<List<InlineKeyboardButton>>();
+        val language = langConfiguration.getLanguage(userService.getUser(Long.valueOf(userId)).getLang());
 
         checkButton.setCallbackData("inform-news");
 
         buttonsRow.add(List.of(checkButton));
 
-        checkButton.setText("Предложить новость.");
+        checkButton.setText(language.getString("suggest_news"));
         replyKeyboardMarkup.setKeyboard(buttonsRow);
 
         if (message.hasPhoto()) {
@@ -77,7 +86,7 @@ public class GetUserPostTextState implements UserState {
             sendPost.setCaption(postText.build());
 
             bot.execute(sendPost);
-            bot.execute(new SendMessage(userId, "Пост отправлен!"));
+            bot.execute(new SendMessage(userId, language.getString("post_was_send")));
 
             FieldStateMachine.cancelState(user);
             return;
@@ -98,7 +107,7 @@ public class GetUserPostTextState implements UserState {
         sendPost.setReplyMarkup(replyKeyboardMarkup);
 
         bot.execute(sendPost);
-        bot.execute(new SendMessage(userId, "Пост отправлен!"));
+        bot.execute(new SendMessage(userId, language.getString("post_was_send")));
 
         FieldStateMachine.cancelState(user);
     }

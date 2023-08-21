@@ -4,6 +4,8 @@ import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
+import ml.itzanubis.newsbot.lang.LangConfiguration;
+import ml.itzanubis.newsbot.service.UserService;
 import ml.itzanubis.newsbot.telegram.update.UpdateCallbackManager;
 import ml.itzanubis.newsbot.telegram.update.UpdateCallbackQueryExecutor;
 import org.jetbrains.annotations.NotNull;
@@ -20,15 +22,24 @@ public class DeclineNewsCallbackQuery implements UpdateCallbackQueryExecutor {
 
     private final UpdateCallbackManager callbackManager;
 
+    private final LangConfiguration langConfiguration;
+
+    private final UserService userService;
+
     @PostConstruct
     private void createQuery() {
         callbackManager.create("decline-news", this);
     }
 
     @Autowired
-    public DeclineNewsCallbackQuery(TelegramBot bot, UpdateCallbackManager callbackManager) {
+    public DeclineNewsCallbackQuery(final @NotNull TelegramBot bot,
+                                    final @NotNull UpdateCallbackManager callbackManager,
+                                    final @NotNull LangConfiguration langConfiguration,
+                                    final @NotNull UserService userService) {
         this.bot = bot;
         this.callbackManager = callbackManager;
+        this.langConfiguration = langConfiguration;
+        this.userService = userService;
     }
 
     @Override
@@ -36,8 +47,9 @@ public class DeclineNewsCallbackQuery implements UpdateCallbackQueryExecutor {
     public void execute(@NotNull User user, @NotNull CallbackQuery callback) {
         val message = callback.getMessage();
         val userId = String.valueOf(user.getId());
+        val language = langConfiguration.getLanguage(userService.getUser(Long.valueOf(userId)).getLang());
 
         bot.execute(new DeleteMessage(userId, callback.getMessage().getMessageId()));
-        bot.execute(new SendMessage(userId, "Предложение отклонено!"));
+        bot.execute(new SendMessage(userId, language.getString("news_rejected")));
     }
 }

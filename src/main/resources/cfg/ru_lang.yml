@@ -1,2 +1,25 @@
 hello_message: "Привет, я чат бот для Ваших новостей!"
 unknown_command: "Неизвестная команда!"
+need_chat_id: "Введите айди чата!"
+incorrect_chat_id: "Некорректное айди чата!"
+bot_is_not_in_chat: "Бот не в канале!"
+bot_is_not_admin: "Бот в канале не админ!"
+already_add_channel: "У Вас уже есть канал!"
+success_add_channel: "Вы добавили чат: "
+chat_not_found: "Чат не найден!"
+send_a_news: "Пришлите новость в след. сообщении!"
+dont_having_channels: "У вас нет привязанных каналов!"
+
+post_was_send: "Пост отправлен!"
+suggest_news: "Предложить новость"
+
+success_unbind: "Вы успешно отвязали канал!"
+you_have_unread_news: "Вам пришла новость: "
+news_rejected: "Вы отклонили новость!"
+
+offer_news: "Напишите боту @{channel} команду: /inform [чат]"
+you_have_news: "Вам пришла новость: "
+not_enough_text: "Текст не может быть меньше 100 символов! Попробуйте еще раз."
+
+accept: "Принять"
+decline: "Отклонить"

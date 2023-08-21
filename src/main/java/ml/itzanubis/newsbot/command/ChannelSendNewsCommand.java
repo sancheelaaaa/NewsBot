@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
 import ml.itzanubis.newsbot.entity.UserEntity;
+import ml.itzanubis.newsbot.lang.LangConfiguration;
 import ml.itzanubis.newsbot.state.GetUserPostTextState;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
@@ -28,6 +29,8 @@ public class ChannelSendNewsCommand implements CommandExecutor {
 
     private final GetUserPostTextState getUserPostTextState;
 
+    private final LangConfiguration langConfiguration;
+
     @PostConstruct
     private void init() {
         commandManager.createCommand("/post", this);
@@ -37,12 +40,14 @@ public class ChannelSendNewsCommand implements CommandExecutor {
     public ChannelSendNewsCommand(ChannelService channelService,
                                   CommandManager commandManager,
                                   TelegramBot bot,
-                                  GetUserPostTextState getUserPostTextState) {
+                                  GetUserPostTextState getUserPostTextState,
+                                  LangConfiguration langConfiguration) {
 
         this.channelService = channelService;
         this.commandManager = commandManager;
         this.bot = bot;
         this.getUserPostTextState = getUserPostTextState;
+        this.langConfiguration = langConfiguration;
     }
 
     @Override
@@ -55,20 +60,21 @@ public class ChannelSendNewsCommand implements CommandExecutor {
 
         val userId = String.valueOf(user.getId());
         val channelEntity = channelService.getChannel(userId);
+        val language = langConfiguration.getLanguage(userEntity.getLang());
 
         if (channelEntity == null) {
-            bot.execute(new SendMessage(userId, "У вас нет активных каналов!"));
+            bot.execute(new SendMessage(userId, language.getString("dont_having_channels")));
             return;
         }
 
         val channelId = String.valueOf(channelEntity.getId());
 
         if (!channelService.isAdmin(channelId)) {
-            bot.execute(new SendMessage(userId, "Бот в канале не администратор!"));
+            bot.execute(new SendMessage(userId, language.getString("bot_is_not_admin")));
             return;
         }
 
         FieldStateMachine.createState(user, getUserPostTextState);
-        bot.execute(new SendMessage(userId, "Отправьте текст Вашего поста ниже: "));
+        bot.execute(new SendMessage(userId, language.getString("send_a_news")));
     }
 }

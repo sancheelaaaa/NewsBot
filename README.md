@@ -8,7 +8,19 @@
   4. To unbind channel use command /unbind 
   5. To send post to your channel, use command and look for instructions: /post
   6. A post sended to your channel
-     
+
+# Multi-language support?
+
+<b> YES! </b> You can add your own language, just create pull request with yml of your language! <br/>
+<b> <i> And it will be added in next versions ;) </i></b>
+<br/>
+<br/> <b> In version 0.2 supporting next languages: </b>
+
+1. <b> English </b>
+2. <b> Russian </b>
+
+**But we can add more!**
+
 # How to offer a message, if I can? -- So easy, follow next steps:
   1. Send a message to bot: https://t.me/boubletelegramnews_bot
   2. Write a command: /inform [chat_id] (where chat_id - id of chat, where should you send your offer)
@@ -30,3 +42,7 @@
 6. [+] create a offer command
 7. [+] made a limit to avoid suggested news in less than 100 characters
 8. [+] preparing for multi-language in 0.2-version
+
+# Verison 0.2:
+1. [+] multi-language support
+2. [+] you can pull up your language, and I will add it in next updates.

@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
 import ml.itzanubis.newsbot.entity.UserEntity;
+import ml.itzanubis.newsbot.lang.LangConfiguration;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
 import ml.itzanubis.newsbot.telegram.command.CommandManager;
@@ -26,14 +27,18 @@ public class ChannelListCommand implements CommandExecutor {
 
     private final CommandManager commandManager;
 
+    private final LangConfiguration langConfiguration;
+
     @Autowired
     private ChannelListCommand(final @NotNull ChannelService channelService,
                                final @NotNull TelegramBot bot,
-                               final @NotNull CommandManager commandManager) {
+                               final @NotNull CommandManager commandManager,
+                               final @NotNull LangConfiguration langConfiguration) {
 
         this.channelService = channelService;
         this.bot = bot;
         this.commandManager = commandManager;
+        this.langConfiguration = langConfiguration;
     }
 
     @PostConstruct
@@ -51,9 +56,10 @@ public class ChannelListCommand implements CommandExecutor {
 
         val channels = channelService.collectAll();
         val userId = String.valueOf(user.getId());
+        val language = langConfiguration.getLanguage(userEntity.getLang());
 
         if (channels.isEmpty()) {
-            bot.execute(new SendMessage(userId, "У вас нет привязанных каналов!"));
+            bot.execute(new SendMessage(userId, language.getString("dont_having_channels")));
             return;
         }
 

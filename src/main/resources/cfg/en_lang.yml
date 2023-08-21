@@ -1,2 +1,25 @@
 hello_message: "Hello, I'm chat bot for your's News-channel"
 unknown_command: "Unknown command, please try again!"
+need_chat_id: "Write chat id!"
+incorrect_chat_id: "Incorrect chat id!"
+bot_is_not_in_chat: "Bot not in a channel!"
+bot_is_not_admin: "Bot not an admin in channel!"
+already_add_channel: "You already have a channel!"
+success_add_channel: "You add a channel: "
+chat_not_found: "Chat not found!"
+send_a_news: "Send a news in next message!"
+dont_having_channels: "You don't have any channels!"
+
+post_was_send: "Post was send!"
+suggest_news: "Suggest news"
+
+success_unbind: "You have successfully unlinked the channel!"
+you_have_unread_news: "You have received news: "
+news_rejected: "You rejected the news!"
+
+offer_news: "Send bot @{channel} command: /inform [chat]"
+you_have_news: "You have received news: "
+not_enough_text: "The text cannot be less than 100 characters! Try again."
+
+accept: "Accept"
+decline: "Decline"

@@ -7,6 +7,7 @@ import ml.itzanubis.newsbot.TelegramBot;
 import ml.itzanubis.newsbot.config.TelegramBotConfiguration;
 import ml.itzanubis.newsbot.entity.ChannelEntity;
 import ml.itzanubis.newsbot.entity.UserEntity;
+import ml.itzanubis.newsbot.lang.LangConfiguration;
 import ml.itzanubis.newsbot.service.ChannelService;
 import ml.itzanubis.newsbot.telegram.command.CommandExecutor;
 import ml.itzanubis.newsbot.telegram.command.CommandManager;
@@ -29,16 +30,20 @@ public class ChannelBindCommand implements CommandExecutor {
 
     private final TelegramBotConfiguration configuration;
 
+    private final LangConfiguration langConfiguration;
+
     @Autowired
     private ChannelBindCommand(final @NotNull ChannelService channelService,
                                final @NotNull TelegramBot bot,
                                final @NotNull CommandManager commandManager,
-                               final @NotNull TelegramBotConfiguration configuration) {
+                               final @NotNull TelegramBotConfiguration configuration,
+                               final @NotNull LangConfiguration langConfiguration) {
 
         this.channelService = channelService;
         this.bot = bot;
         this.commandManager = commandManager;
         this.configuration = configuration;
+        this.langConfiguration = langConfiguration;
     }
 
     @PostConstruct
@@ -55,33 +60,34 @@ public class ChannelBindCommand implements CommandExecutor {
                         final @NotNull UserEntity userEntity) {
 
         val userId = String.valueOf(user.getId());
+        val language = langConfiguration.getLanguage(userEntity.getLang());
 
         if (args.length != 1) {
-            bot.execute(new SendMessage(userId, "Отправьте айди чата!"));
+            bot.execute(new SendMessage(userId, language.getString("need_chat_id")));
             return;
         }
 
         val chatId = args[0];
 
         if (!isNumeric(chatId)) {
-            bot.execute(new SendMessage(userId, "Некорректное айди чата!"));
+            bot.execute(new SendMessage(userId, language.getString("incorrect_chat_id")));
             return;
         }
 
         if (!isChatExist(chatId)) {
-            bot.execute(new SendMessage(userId, "Бот не находится в чате!"));
+            bot.execute(new SendMessage(userId, language.getString("bot_is_not_in_chat")));
             return;
         }
 
         val channel = bot.execute(new GetChat(chatId));
 
         if (!channelService.isAdmin(chatId)) {
-            bot.execute(new SendMessage(userId, "Бот в чате не администратор!"));
+            bot.execute(new SendMessage(userId, language.getString("bot_is_not_admin")));
             return;
         }
 
         if (channelService.getChannel(userId) != null) {
-            bot.execute(new SendMessage(userId, "Вы уже добавляли свой канал!"));
+            bot.execute(new SendMessage(userId, language.getString("already_add_channel")));
             return;
         }
 
@@ -90,8 +96,7 @@ public class ChannelBindCommand implements CommandExecutor {
         channelService.createChannel(userId, channelEntity);
 
         val channelName = channelEntity.getName();
-        bot.execute(new SendMessage(userId, "Вы добавили чат: " + channelName));
-        TelegramBot.getLogger().info("Added a new chat: " + channelName);
+        bot.execute(new SendMessage(userId, language.getString("success_add_channel") + channelName));
     }
 
     private boolean isNumeric(final @NotNull String string) {

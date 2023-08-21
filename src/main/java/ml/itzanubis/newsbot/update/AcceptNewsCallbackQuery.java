@@ -4,7 +4,9 @@ import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.val;
 import ml.itzanubis.newsbot.TelegramBot;
+import ml.itzanubis.newsbot.lang.LangConfiguration;
 import ml.itzanubis.newsbot.service.ChannelService;
+import ml.itzanubis.newsbot.service.UserService;
 import ml.itzanubis.newsbot.telegram.update.UpdateCallbackManager;
 import ml.itzanubis.newsbot.telegram.update.UpdateCallbackQueryExecutor;
 import org.jetbrains.annotations.NotNull;
@@ -33,16 +35,26 @@ public class AcceptNewsCallbackQuery implements UpdateCallbackQueryExecutor {
 
     private final ChannelService channelService;
 
+    private final UserService userService;
+
+    private final LangConfiguration langConfiguration;
+
     @PostConstruct
     private void createQuery() {
         callbackManager.create("accept-news", this);
     }
 
     @Autowired
-    public AcceptNewsCallbackQuery(@NotNull TelegramBot bot, UpdateCallbackManager callbackManager, ChannelService channelService) {
+    public AcceptNewsCallbackQuery(final @NotNull TelegramBot bot,
+                                   final @NotNull UpdateCallbackManager callbackManager,
+                                   final @NotNull ChannelService channelService,
+                                   final @NotNull UserService userService,
+                                   final @NotNull LangConfiguration langConfiguration) {
         this.bot = bot;
         this.callbackManager = callbackManager;
         this.channelService = channelService;
+        this.userService = userService;
+        this.langConfiguration = langConfiguration;
     }
 
     @Override
@@ -55,6 +67,7 @@ public class AcceptNewsCallbackQuery implements UpdateCallbackQueryExecutor {
         val checkButton = new InlineKeyboardButton();
         val buttonsRow = new ArrayList<List<InlineKeyboardButton>>();
         val answerCallbackquery = new AnswerCallbackQuery(callback.getId());
+        val language = langConfiguration.getLanguage(userService.getUser(Long.valueOf(userId)).getLang());
 
         answerCallbackquery.setShowAlert(true);
 
@@ -62,17 +75,17 @@ public class AcceptNewsCallbackQuery implements UpdateCallbackQueryExecutor {
 
         buttonsRow.add(List.of(checkButton));
 
-        checkButton.setText("Предложить новость.");
+        checkButton.setText(language.getString("suggest_news"));
         replyKeyboardMarkup.setKeyboard(buttonsRow);
 
         if (channel == null) {
-            answerCallbackquery.setText("Чат не существует!");
+            answerCallbackquery.setText(language.getString("chat_not_found"));
             bot.execute(answerCallbackquery);
             return;
         }
 
         if (!channelService.isAdmin(String.valueOf(channel.getId()))) {
-            answerCallbackquery.setText("Бот в чате не администратор!");
+            answerCallbackquery.setText(language.getString("bot_is_not_admin"));
             bot.execute(answerCallbackquery);
             return;
         }
@@ -82,7 +95,7 @@ public class AcceptNewsCallbackQuery implements UpdateCallbackQueryExecutor {
             val informedMessage = new SendPhoto();
             val photo = bot.downloadFile(bot.execute(new GetFile(message.getPhoto().get(2).getFileId())));
 
-            informedMessage.setCaption(news.replaceAll("Вам пришла новость: ", ""));
+            informedMessage.setCaption(news.replaceAll(language.getString("you_have_unread_news"), ""));
             informedMessage.setPhoto(new InputFile(photo));
             informedMessage.setChatId(channel.getId());
             informedMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -98,10 +111,10 @@ public class AcceptNewsCallbackQuery implements UpdateCallbackQueryExecutor {
         val informedMessage = new SendMessage();
         val news = message.getText();
 
-        informedMessage.setText(news.replaceAll("Вам пришла новость: ", ""));
+        informedMessage.setText(news.replaceAll(language.getString("you_have_unread_news"), ""));
         informedMessage.setChatId(channel.getId());
         informedMessage.setReplyMarkup(replyKeyboardMarkup);
-        answerCallbackquery.setText("Пост отправлен!");
+        answerCallbackquery.setText(language.getString("post_was_send"));
 
         bot.execute(answerCallbackquery);
         bot.execute(informedMessage);
