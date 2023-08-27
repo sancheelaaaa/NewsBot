@@ -13,8 +13,10 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class UserEntity {
+
     @Id
     private int id;
 
     private String lang;
+
 }

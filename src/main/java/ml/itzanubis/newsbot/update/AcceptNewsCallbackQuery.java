@@ -29,6 +29,7 @@ import java.util.List;
 @Component
 @SuppressWarnings("ALL")
 public class AcceptNewsCallbackQuery implements UpdateCallbackQueryExecutor {
+
     private final TelegramBot bot;
 
     private final UpdateCallbackManager callbackManager;
@@ -126,4 +127,5 @@ public class AcceptNewsCallbackQuery implements UpdateCallbackQueryExecutor {
     private void deleteMessage(String userId, int messageId) {
         bot.execute(new DeleteMessage(userId, messageId));
     }
+
 }

@@ -29,6 +29,7 @@ import java.util.List;
 @Component
 @SuppressWarnings("ALL")
 public class GetUserPostTextState implements UserState {
+
     private final ChannelService channelService;
 
     private final TelegramBot bot;
@@ -111,4 +112,5 @@ public class GetUserPostTextState implements UserState {
 
         FieldStateMachine.cancelState(user);
     }
+
 }

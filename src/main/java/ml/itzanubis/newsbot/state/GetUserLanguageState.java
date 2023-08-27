@@ -67,4 +67,5 @@ public class GetUserLanguageState implements UserState {
 
         FieldStateMachine.cancelState(user);
     }
+
 }

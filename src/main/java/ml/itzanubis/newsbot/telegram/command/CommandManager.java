@@ -35,4 +35,5 @@ public final class CommandManager {
     public boolean isExist(final @NotNull String key) {
         return commands.get(key) != null;
     }
+
 }

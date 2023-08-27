@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 @Component
 public class DeclineNewsCallbackQuery implements UpdateCallbackQueryExecutor {
+
     private final TelegramBot bot;
 
     private final UpdateCallbackManager callbackManager;
@@ -52,4 +53,5 @@ public class DeclineNewsCallbackQuery implements UpdateCallbackQueryExecutor {
         bot.execute(new DeleteMessage(userId, callback.getMessage().getMessageId()));
         bot.execute(new SendMessage(userId, language.getString("news_rejected")));
     }
+
 }

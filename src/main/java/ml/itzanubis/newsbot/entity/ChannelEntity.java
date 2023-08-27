@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChannelEntity {
+
     @Id
     private Long id;
 
     private String name;
 
     private String userId;
+
 }

@@ -12,4 +12,5 @@ public interface CommandExecutor {
                  final @NotNull Chat chat,
                  final @NotNull String[] args,
                  final @NotNull UserEntity userEntity);
+
 }

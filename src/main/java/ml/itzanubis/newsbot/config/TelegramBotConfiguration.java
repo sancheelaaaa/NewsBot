@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(value = "telegram")
 public class TelegramBotConfiguration {
+    
     private String token;
 
     private String username;

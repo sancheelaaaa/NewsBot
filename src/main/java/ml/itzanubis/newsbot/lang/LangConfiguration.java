@@ -59,6 +59,7 @@ public final class LangConfiguration {
     @AllArgsConstructor
     @RequiredArgsConstructor
     private final static class Language {
+        
         private String name;
 
         @NonFinal
@@ -78,6 +79,7 @@ public final class LangConfiguration {
 
             return language;
         }
+
     }
 
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 
 @UtilityClass
 public class FieldStateMachine {
+
     @Getter
     private final Map<User, UserState> FIELD_STATE_MACHINE = new HashMap<>();
 
@@ -50,4 +51,5 @@ public class FieldStateMachine {
     public UserState getState(final @NonNull User user) {
         return FIELD_STATE_MACHINE.get(user);
     }
+
 }

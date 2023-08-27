@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 @Component
 public class OfferNewsCallbackQuery implements UpdateCallbackQueryExecutor {
+
     private final TelegramBotConfiguration configuration;
 
     private final TelegramBot bot;
@@ -59,4 +60,5 @@ public class OfferNewsCallbackQuery implements UpdateCallbackQueryExecutor {
 
         bot.execute(answerCallbackquery);
     }
+
 }
